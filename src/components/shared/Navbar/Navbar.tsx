@@ -48,8 +48,8 @@ const Navbar = () => {
   ];
 
   return (
-    <section className="max-w-[1600px] mx-auto px-5 lg:px-10 sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
-      <div className="container">
+    <section className="container mx-auto sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+      <div>
         <nav className="flex items-center justify-between py-3">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
@@ -94,7 +94,15 @@ const Navbar = () => {
                   href="#"
                   className={navigationMenuTriggerStyle()}
                 >
-                  Products
+                  Projects
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink
+                  href="/about"
+                  className={navigationMenuTriggerStyle()}
+                >
+                  About
                 </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
@@ -102,15 +110,7 @@ const Navbar = () => {
                   href="#"
                   className={navigationMenuTriggerStyle()}
                 >
-                  Resources
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  href="#"
-                  className={navigationMenuTriggerStyle()}
-                >
-                  Contact
+                  Dashboard
                 </NavigationMenuLink>
               </NavigationMenuItem>
             </NavigationMenuList>
@@ -122,7 +122,7 @@ const Navbar = () => {
               Sign in
             </Button>
             <Button className="rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg hover:opacity-90 px-6">
-              Start for free
+              Hire Me
             </Button>
           </div>
 
@@ -187,7 +187,7 @@ const Navbar = () => {
                     Sign in
                   </Button>
                   <Button className="rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg hover:opacity-90">
-                    Start for free
+                    Hire Me
                   </Button>
                 </div>
               </div>

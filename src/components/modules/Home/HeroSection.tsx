@@ -5,7 +5,7 @@ import { ContainerTextFlip } from "@/components/ui/container-text-flip";
 
 const HeroSection = () => {
   return (
-    <section className="h-full max-w-7xl mx-auto px-5 lg:px-10 w-screen overflow-hidden py-32">
+    <section className="bg-gradient-to-b from-fuchsia-50 via-white to-fuchsia-200 h-full max-w-7xl mx-auto px-5 lg:px-10 w-screen overflow-hidden py-32">
       <div className="container border-b border-t border-dashed">
         <div className="relative flex w-full max-w-5xl flex-col border border-t-0 border-dashed px-5 py-12 items-center justify-center mx-auto">
           <p className="text-muted-foreground flex items-center gap-3 text-sm">
