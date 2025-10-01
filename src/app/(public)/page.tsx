@@ -1,10 +1,9 @@
+import { HeroSection } from "@/components/modules/Home/HeroSection";
 
 const HomePage = () => {
   return (
-    <div>
-      <h2 className="text-center my-5 text-5xl text-slate-900 font-extrabold">
-        This is Home Page
-      </h2>
+    <div className="bg-gradient-to-b from-fuchsia-50 via-white to-fuchsia-200">
+      <HeroSection />
     </div>
   );
 };
