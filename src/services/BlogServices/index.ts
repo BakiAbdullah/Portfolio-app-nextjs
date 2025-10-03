@@ -4,3 +4,14 @@ export const getAllBlogs = async () => {
   });
   return await res.json();
 };
+
+
+export const getSingleblog = async (blogId: string) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_API}/blogs/${blogId}`,
+    {
+      next: { revalidate: 30 }, //! Incremental Static Regeneration (ISR)
+    }
+  );
+  return await res.json();
+};

@@ -2,7 +2,6 @@ import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
-
 interface Footer7Props {
   logo?: {
     url: string;
@@ -74,7 +73,7 @@ const Footer = ({
     url: "https://www.shadcnblocks.com",
     src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg",
     alt: "logo",
-    title: "Shadcnblocks.com",
+    title: "My Portfolio",
   },
   sections = defaultSections,
   description = "A collection of components for your startup business or side project.",
@@ -83,8 +82,8 @@ const Footer = ({
   legalLinks = defaultLegalLinks,
 }: Footer7Props) => {
   return (
-    <section className="py-32 max-w-7xl mx-auto px-5 lg:px-10">
-      <div className="container">
+    <section className="pt-18 pb-5 w-full mx-auto px-10 bg-fuchsia-50">
+      <div>
         <div className="flex w-full flex-col justify-between gap-10 lg:flex-row lg:items-start lg:text-left">
           <div className="flex w-full flex-col justify-between gap-6 lg:items-start">
             {/* Logo */}
