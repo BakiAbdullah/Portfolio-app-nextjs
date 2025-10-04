@@ -1,5 +1,13 @@
 import BlogDetailsCard from "@/components/modules/Blogs/BlogDetailsCard";
-import { getSingleBlog } from "@/services/BlogServices";
+import { getAllBlogs, getSingleBlog } from "@/services/BlogServices";
+
+// SSG (Static Site Generation) with Params
+export const generateStaticParams = async () => { 
+  const blogs = await getAllBlogs();
+  return blogs?.data?.map((blog: { id: string }) => ({
+    blogId: String(blog.id),
+  }));
+}
 
 // Next js Metadata API
 export const generateMetadata = async ({
