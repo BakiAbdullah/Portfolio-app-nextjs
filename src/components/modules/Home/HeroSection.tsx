@@ -2,6 +2,7 @@ import { TrendingUp, Users, Zap } from "lucide-react";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { ContainerTextFlip } from "@/components/ui/container-text-flip";
+import Link from "next/link";
 
 const HeroSection = () => {
   return (
@@ -42,7 +43,9 @@ const HeroSection = () => {
               focus on delivering clean code and scalable solutions for
               real-world problems.
             </p>
-            <Button className="mx-5 h-12 rounded-lg">View My Projects</Button>
+            <Link href="/projects">
+              <Button className="mx-5 h-12 rounded-lg cursor-pointer">View My Projects</Button>
+            </Link>
           </div>
         </div>
 

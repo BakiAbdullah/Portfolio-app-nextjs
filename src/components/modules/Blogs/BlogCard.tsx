@@ -12,9 +12,11 @@ export default function BlogCard({ blog }: { blog: any }) {
         <div className="relative h-56 w-full overflow-hidden flex-shrink-0">
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent z-10" />
           <Image
+            height={400}
+            width={500}
             src={blog.thumbnail}
             alt={blog.title}
-            fill
+            
             className="object-cover group-hover:scale-110 transition-transform duration-700"
           />
 

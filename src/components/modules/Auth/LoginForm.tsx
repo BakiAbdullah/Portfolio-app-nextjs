@@ -10,10 +10,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { FieldValues, useForm } from "react-hook-form";
-import { toast } from "sonner";
 
 export default function LoginForm() {
   const form = useForm<FieldValues>({
@@ -25,17 +25,16 @@ export default function LoginForm() {
 
   const onSubmit = async (values: FieldValues) => {
     try {
-      console.log(values)
       // const res = await login(values);
       // if (res?.id) {
       //   toast.success("Login successful!");
       // } else {
       //   toast.error("Login failed! Please check your credentials.");
       // }
-      // signIn("credentials", {
-      //   ...values,
-      //   callbackUrl: "/dashboard",
-      // })
+      signIn("credentials", {
+        ...values,
+        callbackUrl: "/dashboard",
+      });
     } catch (error) {
       console.error(error);
     }

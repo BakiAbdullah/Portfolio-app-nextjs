@@ -15,3 +15,5 @@ export const getSingleblog = async (blogId: string) => {
   );
   return await res.json();
 };
+
+

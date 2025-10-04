@@ -18,10 +18,12 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { MenuIcon } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 
 const Navbar = () => {
+  const session = useSession();
   // const features = [
   //   {
   //     title: "Dashboard",
@@ -106,24 +108,36 @@ const Navbar = () => {
                   About
                 </NavigationMenuLink>
               </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  href="#"
-                  className={navigationMenuTriggerStyle()}
-                >
-                  Dashboard
-                </NavigationMenuLink>
-              </NavigationMenuItem>
+              
+                <NavigationMenuItem>
+                  <NavigationMenuLink
+                    href="/dashboard"
+                    className={navigationMenuTriggerStyle()}
+                  >
+                    Dashboard
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+            
             </NavigationMenuList>
           </NavigationMenu>
 
           {/* Desktop Buttons */}
           <div className="hidden items-center gap-4 lg:flex">
-            <Link href="/login">
-              <Button variant="outline" className="rounded-full px-6">
-                Log in
+            {!session?.data?.user ? (
+              <Link href="/login">
+                <Button variant="outline" className="rounded-full px-6">
+                  Log in
+                </Button>
+              </Link>
+            ) : (
+              <Button
+                onClick={() => signOut()}
+                variant="outline"
+                className="rounded-full px-6"
+              >
+                Log out
               </Button>
-            </Link>
+            )}
             <Button className="rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg hover:opacity-90 px-6">
               Hire Me
             </Button>
