@@ -6,7 +6,7 @@ export const getAllBlogs = async () => {
 };
 
 
-export const getSingleblog = async (blogId: string) => {
+export const getSingleBlog = async (blogId: string) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_API}/blogs/${blogId}`,
     {
