@@ -1,4 +1,10 @@
 import { getUserSession } from "@/helpers/getUserSession";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard - My Portfolio",
+  description: "Admin Dashboard - Manage your portfolio content.",
+};
 
 export default async function DashboardHomePage() {
   const session = await getUserSession();

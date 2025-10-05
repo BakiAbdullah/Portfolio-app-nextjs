@@ -3,6 +3,12 @@
 import BlogCard from "@/components/modules/Blogs/BlogCard";
 import { HeroSection } from "@/components/modules/Home/HeroSection";
 import { getAllBlogs } from "@/services/BlogServices";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home - My Portfolio",
+  description: "Welcome to my personal portfolio website showcasing my projects and blogs.",
+};
 
 const HomePage = async () => {
   const { data: blogs } = await getAllBlogs();

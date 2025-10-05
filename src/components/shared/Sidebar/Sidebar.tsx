@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Home, PlusCircle, LogOut, LogIn } from "lucide-react";
+import { Home, PlusCircle, LogOut, LogIn, Settings2 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 
 export default function Sidebar() {
@@ -17,10 +17,10 @@ export default function Sidebar() {
       icon: PlusCircle,
     },
     {
-      href: "/dashboard/update-blog",
-      label: "Update Blog",
-      icon: PlusCircle,
-    },
+      href: "/dashboard/manage-blogs",
+      label: "Manage Blog Contents",
+      icon: Settings2,
+    }
   ];
 
   return (
@@ -71,7 +71,7 @@ export default function Sidebar() {
           <Button
             onClick={() => signOut()}
             variant="ghost"
-            className="w-full justify-start gap-3 cursor-pointer rounded-xl px-4 py-2 text-sm font-semibold text-gray-300 hover:bg-gradient-to-r hover:from-gray-800 hover:to-gray-700 hover:text-white transition-all"
+            className="w-full justify-start bg-gray-900 gap-3 cursor-pointer rounded-xl px-4 py-2 text-sm font-semibold text-gray-300 hover:bg-gradient-to-r hover:from-gray-800 hover:to-gray-700 hover:text-white transition-all"
           >
             <LogOut className="h-5 w-5 text-purple-400 group-hover:text-fuchsia-400" />
             Sign Out

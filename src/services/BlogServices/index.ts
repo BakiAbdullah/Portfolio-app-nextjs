@@ -10,10 +10,15 @@ export const getSingleBlog = async (blogId: string) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_API}/blogs/${blogId}`,
     {
-      next: { revalidate: 30 }, //! Incremental Static Regeneration (ISR)
+      next: { revalidate: 30 },
     }
   );
   return await res.json();
 };
+
+
+
+
+
 
 

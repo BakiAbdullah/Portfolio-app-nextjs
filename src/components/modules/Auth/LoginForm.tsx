@@ -14,6 +14,7 @@ import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { FieldValues, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 export default function LoginForm() {
   const form = useForm<FieldValues>({
@@ -22,20 +23,22 @@ export default function LoginForm() {
       password: "",
     },
   });
-
   const onSubmit = async (values: FieldValues) => {
     try {
-      // const res = await login(values);
-      // if (res?.id) {
-      //   toast.success("Login successful!");
-      // } else {
-      //   toast.error("Login failed! Please check your credentials.");
-      // }
-      signIn("credentials", {
+      const res = await signIn("credentials", {
+        redirect: false, // important! prevent automatic redirect
         ...values,
-        callbackUrl: "/dashboard",
       });
+
+      console.log(res);
+
+      if (res?.ok) {
+        // login successful
+        toast.success("Login successful!");
+        window.location.href = "/dashboard"; // manually redirect
+      }
     } catch (error) {
+      toast.error((error as Error).message);
       console.error(error);
     }
   };

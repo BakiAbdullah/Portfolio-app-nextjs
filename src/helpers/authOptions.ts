@@ -36,7 +36,7 @@ export const authOptions: NextAuthOptions = {
           const res = await loginWithCredentials(credentials);
 
           if (!res?.ok) {
-            console.error("Login failed!", await res.text());
+            console.error("Login failed!", await res.json());
             return null;
           }
 

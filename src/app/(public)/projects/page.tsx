@@ -1,16 +1,17 @@
 "use client";
-import React, { useState } from "react";
 import {
-  ExternalLink,
-  Github,
-  Code2,
-  Sparkles,
   ChevronRight,
-  Eye,
-  Star,
   Clock,
+  Code2,
+  ExternalLink,
+  Eye,
+  Github,
+  Sparkles,
+  Star,
 } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
+
 
 const ProjectShowcase = () => {
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);

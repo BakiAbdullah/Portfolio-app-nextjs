@@ -1,4 +1,10 @@
 import CreateBlogForm from "@/components/modules/Blogs/CreateBlogForm";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Create Blog - My Portfolio",
+  description: "Create a new blog post to share your thoughts and expertise.",
+};
 
 const CreateBlogPage = () => {
   return (

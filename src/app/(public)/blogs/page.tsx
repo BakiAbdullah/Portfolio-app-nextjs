@@ -3,6 +3,13 @@
 import BlogCard from "@/components/modules/Blogs/BlogCard";
 // import { Badge } from "@/components/ui/badge";
 import { getAllBlogs } from "@/services/BlogServices";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "All Blogs - My Portfolio",
+  description:
+    "All Blogs showcase.",
+};
 
 const AllBlogsPage = async () => {
   const { data: Allblogs } = await getAllBlogs();
