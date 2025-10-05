@@ -25,18 +25,11 @@ export default function LoginForm() {
   });
   const onSubmit = async (values: FieldValues) => {
     try {
-      const res = await signIn("credentials", {
-        redirect: false, // important! prevent automatic redirect
+      signIn("credentials", {
         ...values,
+        callbackUrl: "/dashboard",
       });
 
-      console.log(res);
-
-      if (res?.ok) {
-        // login successful
-        toast.success("Login successful!");
-        window.location.href = "/dashboard"; // manually redirect
-      }
     } catch (error) {
       toast.error((error as Error).message);
       console.error(error);

@@ -14,6 +14,8 @@ export const metadata: Metadata = {
 const AllBlogsPage = async () => {
   const { data: Allblogs } = await getAllBlogs();
 
+  console.log(Allblogs);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-fuchsia-50/30 to-indigo-100/50 dark:from-slate-950 dark:via-fuchsia-950/30 dark:to-slate-900 py-16 px-4 sm:px-6 lg:px-8">
       <div className="container mx-auto max-w-7xl">

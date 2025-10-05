@@ -1,33 +1,25 @@
-// import { NextResponse, NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
-// // This function can be marked `async` if using `await` inside
-// export function middleware(request: NextRequest) {
-//   return NextResponse.redirect(new URL("/", request.url));
-// }
+// This function can be marked `async` if using `await` inside
+export async function middleware(request: NextRequest) {
+  const token = await getToken({
+    req: request,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
 
-// export const config = {
-//   matcher: "/about",
-// };
+  console.log({token})
 
-// export { default } from "next-auth/middleware";
-
-// export const config = {
-//   matcher: ["/dashboard"]
-// };
-
-
-import { withAuth } from "next-auth/middleware";
-
-export default withAuth(
-  // `withAuth` augments your `Request` with the user's token.
-  function middleware(req) {
-    console.log(req.nextauth.token, "From withAuth Middleware");
-  },
-  {
-    callbacks: {
-      authorized: ({ token }) => token?.role === "ADMIN",
-    },
+  if (!token) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/login";
+    return NextResponse.redirect(url);
   }
-);
 
-export const config = { matcher: ["/dashboard"] };
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ["/dashboard/:path*"],
+};

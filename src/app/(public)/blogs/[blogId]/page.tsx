@@ -1,13 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import BlogDetailsCard from "@/components/modules/Blogs/BlogDetailsCard";
-import { getAllBlogs, getSingleBlog } from "@/services/BlogServices";
+import { getSingleBlog } from "@/services/BlogServices";
 
 // SSG (Static Site Generation) with Params
-export const generateStaticParams = async () => { 
-  const blogs = await getAllBlogs();
-  return blogs?.data?.map((blog: { id: string }) => ({
-    blogId: String(blog.id),
-  }));
-}
+export const generateStaticParams = async () => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs`);
+    const data = await res.json();
+
+    return data?.data?.map((blog: any) => ({
+      blogId: String(blog.id),
+    }));
+  } catch (err) {
+    console.error(" Failed to fetch blogs:", err);
+    return [];
+  }
+};
 
 // Next js Metadata API
 export const generateMetadata = async ({

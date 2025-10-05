@@ -1,6 +1,6 @@
-import { loginWithCredentials } from "@/services/AuthServices/login";
-import { NextAuthOptions } from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { NextAuthOptions } from "next-auth";
 
 declare module "next-auth" {
   interface Session {
@@ -8,19 +8,21 @@ declare module "next-auth" {
       id: string;
       name: string | null;
       email: string | null;
-      role: string | null;
+      image?: string | null;
     };
   }
   interface User {
     id: string;
     name?: string | null;
     email?: string | null;
-    role: string | null;
+    image?: string | null;
   }
 }
 
 export const authOptions: NextAuthOptions = {
+  // Configure one or more authentication providers
   providers: [
+
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -28,28 +30,42 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
+        if (!credentials?.email || !credentials.password) {
           console.error("Email or password is missing");
           return null;
         }
+
         try {
-          const res = await loginWithCredentials(credentials);
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_API}/auth/login`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: credentials.email,
+                password: credentials.password,
+              }),
+            }
+          );
+
+          console.log("Response from Backend!", res);
 
           if (!res?.ok) {
-            console.error("Login failed!", await res.json());
+            console.error("Login failed!", await res.text());
             return null;
           }
-
           const user = await res.json();
-          
+          console.log({ user }, "user from backend");
           if (user) {
             return {
               id: user?.data?.id,
               name: user?.data?.name,
               email: user?.data?.email,
-              role: user?.data?.role,
             };
           } else {
+            // If you return null then an error will be displayed advising the user to check their details.
             return null;
           }
         } catch (error) {
@@ -63,14 +79,12 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user?.id;
-        token.role = user?.role;
       }
       return token;
     },
     async session({ session, token }) {
       if (session?.user) {
         session.user.id = token?.id as string;
-        session.user.role = token?.role as string;
       }
       return session;
     },
