@@ -1,6 +1,5 @@
-import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
 import { NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 declare module "next-auth" {
   interface Session {
@@ -22,7 +21,6 @@ declare module "next-auth" {
 export const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
   providers: [
-
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -31,8 +29,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials.password) {
-          console.error("Email or password is missing");
-          return null;
+          throw new Error("Invalid email or password");
         }
 
         try {
@@ -50,14 +47,23 @@ export const authOptions: NextAuthOptions = {
             }
           );
 
-          console.log("Response from Backend!", res);
-
           if (!res?.ok) {
             console.error("Login failed!", await res.text());
             return null;
           }
           const user = await res.json();
-          console.log({ user }, "user from backend");
+
+          // // ✅ Securely set cookie manually (Next.js 15 way)
+          // const cookieStore = await cookies();
+          // cookieStore.set("access_token", user.data.token, {
+          //   httpOnly: true,
+          //   secure: true,
+          //   sameSite: "none",
+          //   path: "/",
+          // });
+
+          // console.log(cookieStore, "cookieStore");
+
           if (user) {
             return {
               id: user?.data?.id,
