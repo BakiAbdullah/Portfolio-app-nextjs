@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Home, PlusCircle, LogOut, LogIn, Settings2 } from "lucide-react";
+import { Home, PlusCircle, LogOut, LogIn, Settings2, SettingsIcon, PlusSquare } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 
 export default function Sidebar() {
@@ -17,10 +17,20 @@ export default function Sidebar() {
       icon: PlusCircle,
     },
     {
+      href: "/dashboard/create-projects",
+      label: "Create Project",
+      icon: PlusSquare,
+    },
+    {
       href: "/dashboard/manage-blogs",
       label: "Manage Blog Contents",
       icon: Settings2,
-    }
+    },
+    {
+      href: "/dashboard/manage-projects",
+      label: "Manage Projects",
+      icon: SettingsIcon,
+    },
   ];
 
   return (

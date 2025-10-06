@@ -108,16 +108,15 @@ const Navbar = () => {
                   About
                 </NavigationMenuLink>
               </NavigationMenuItem>
-              
-                <NavigationMenuItem>
-                  <NavigationMenuLink
-                    href="/dashboard"
-                    className={navigationMenuTriggerStyle()}
-                  >
-                    Dashboard
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-            
+
+              <NavigationMenuItem>
+                <NavigationMenuLink
+                  href="/dashboard"
+                  className={navigationMenuTriggerStyle()}
+                >
+                  Dashboard
+                </NavigationMenuLink>
+              </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
 
@@ -125,7 +124,10 @@ const Navbar = () => {
           <div className="hidden items-center gap-4 lg:flex">
             {!session?.data?.user ? (
               <Link href="/login">
-                <Button variant="outline" className="rounded-full px-6">
+                <Button
+                  variant="outline"
+                  className="rounded-full px-6 cursor-pointer"
+                >
                   Log in
                 </Button>
               </Link>
@@ -133,14 +135,16 @@ const Navbar = () => {
               <Button
                 onClick={() => signOut()}
                 variant="outline"
-                className="rounded-full px-6"
+                className="rounded-full px-6 cursor-pointer"
               >
                 Log out
               </Button>
             )}
-            <Button className="rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg hover:opacity-90 px-6">
-              Hire Me
-            </Button>
+            <Link href="/about">
+              <Button className="rounded-full cursor-pointer bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg hover:opacity-90 px-6">
+                Hire Me
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu */}

@@ -1,4 +1,6 @@
 "use client";
+import { ProjectDetailsCard } from "@/components/modules/Projects/ProjectDetailsCard";
+import { getAllProjects } from "@/services/ProjectServices";
 import {
   ChevronRight,
   Clock,
@@ -10,124 +12,159 @@ import {
   Star,
 } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+type Project = {
+  id: number;
+  title: string;
+  description: string;
+  thumbnail: string;
+  tags: string[];
+  category: string;
+  liveUrl: string;
+  githubUrl: string;
+  isFeatured: boolean;
+  stats: {
+    views: string;
+    stars: number;
+    duration: string;
+  };
+};
 
 const ProjectShowcase = () => {
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
   const [selectedFilter, setSelectedFilter] = useState("all");
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [allProjects, setAllProjects] = useState<Project[]>([]);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const data = await getAllProjects();
+        setAllProjects(data?.data || []);
+      } catch (err) {
+        console.error("Failed to fetch projects", err);
+      }
+    };
+    fetchProjects();
+  }, []);
+
+  console.log(allProjects, "from projects");
 
   // Sample projects data - replace with your actual data
-  const projects = [
-    {
-      id: 1,
-      title: "E-Commerce Platform",
-      description:
-        "A full-stack e-commerce solution with real-time inventory management, secure payment processing, and admin dashboard.",
-      thumbnail:
-        "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80",
-      tags: ["React", "Node.js", "MongoDB", "Stripe"],
-      category: "fullstack",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com/example",
-      featured: true,
-      stats: { views: "2.5K", stars: 128, duration: "3 months" },
-    },
-    {
-      id: 2,
-      title: "AI Task Manager",
-      description:
-        "Smart task management app with AI-powered priority suggestions and automated scheduling.",
-      thumbnail:
-        "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&q=80",
-      tags: ["Next.js", "TypeScript", "OpenAI", "PostgreSQL"],
-      category: "frontend",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com/example",
-      featured: true,
-      stats: { views: "1.8K", stars: 95, duration: "2 months" },
-    },
-    {
-      id: 3,
-      title: "Social Media Dashboard",
-      description:
-        "Analytics dashboard for tracking social media performance across multiple platforms with real-time data visualization.",
-      thumbnail:
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
-      tags: ["Vue.js", "D3.js", "Express", "Redis"],
-      category: "fullstack",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com/example",
-      featured: false,
-      stats: { views: "3.2K", stars: 156, duration: "4 months" },
-    },
-    {
-      id: 4,
-      title: "Weather Forecast App",
-      description:
-        "Beautiful weather application with 7-day forecasts, interactive maps, and severe weather alerts.",
-      thumbnail:
-        "https://images.unsplash.com/photo-1592210454359-9043f067919b?w=800&q=80",
-      tags: ["React Native", "API Integration", "Redux"],
-      category: "mobile",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com/example",
-      featured: false,
-      stats: { views: "1.2K", stars: 67, duration: "6 weeks" },
-    },
-    {
-      id: 5,
-      title: "Portfolio CMS",
-      description:
-        "Content management system specifically designed for portfolio websites with drag-and-drop interface.",
-      thumbnail:
-        "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&q=80",
-      tags: ["Next.js", "Prisma", "TailwindCSS"],
-      category: "fullstack",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com/example",
-      featured: true,
-      stats: { views: "4.1K", stars: 203, duration: "5 months" },
-    },
-    {
-      id: 6,
-      title: "Fitness Tracker",
-      description:
-        "Comprehensive fitness tracking application with workout plans, nutrition tracking, and progress analytics.",
-      thumbnail:
-        "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80",
-      tags: ["Flutter", "Firebase", "ML Kit"],
-      category: "mobile",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com/example",
-      featured: false,
-      stats: { views: "2.9K", stars: 142, duration: "3 months" },
-    },
-  ];
+  // const projects = [
+  //   {
+  //     id: 1,
+  //     title: "E-Commerce Platform",
+  //     description:
+  //       "A full-stack e-commerce solution with real-time inventory management, secure payment processing, and admin dashboard.",
+  //     thumbnail:
+  //       "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80",
+  //     tags: ["React", "Node.js", "MongoDB", "Stripe"],
+  //     category: "fullstack",
+  //     liveUrl: "https://example.com",
+  //     githubUrl: "https://github.com/example",
+  //     featured: true,
+  //     stats: { views: "2.5K", stars: 128, duration: "3 months" },
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "AI Task Manager",
+  //     description:
+  //       "Smart task management app with AI-powered priority suggestions and automated scheduling.",
+  //     thumbnail:
+  //       "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&q=80",
+  //     tags: ["Next.js", "TypeScript", "OpenAI", "PostgreSQL"],
+  //     category: "frontend",
+  //     liveUrl: "https://example.com",
+  //     githubUrl: "https://github.com/example",
+  //     featured: true,
+  //     stats: { views: "1.8K", stars: 95, duration: "2 months" },
+  //   },
+  //   // {
+  //   //   id: 3,
+  //   //   title: "Social Media Dashboard",
+  //   //   description:
+  //   //     "Analytics dashboard for tracking social media performance across multiple platforms with real-time data visualization.",
+  //   //   thumbnail:
+  //   //     "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
+  //   //   tags: ["Vue.js", "D3.js", "Express", "Redis"],
+  //   //   category: "fullstack",
+  //   //   liveUrl: "https://example.com",
+  //   //   githubUrl: "https://github.com/example",
+  //   //   featured: false,
+  //   //   stats: { views: "3.2K", stars: 156, duration: "4 months" },
+  //   // },
+  //   // {
+  //   //   id: 4,
+  //   //   title: "Weather Forecast App",
+  //   //   description:
+  //   //     "Beautiful weather application with 7-day forecasts, interactive maps, and severe weather alerts.",
+  //   //   thumbnail:
+  //   //     "https://images.unsplash.com/photo-1592210454359-9043f067919b?w=800&q=80",
+  //   //   tags: ["React Native", "API Integration", "Redux"],
+  //   //   category: "mobile",
+  //   //   liveUrl: "https://example.com",
+  //   //   githubUrl: "https://github.com/example",
+  //   //   featured: false,
+  //   //   stats: { views: "1.2K", stars: 67, duration: "6 weeks" },
+  //   // },
+  //   // {
+  //   //   id: 5,
+  //   //   title: "Portfolio CMS",
+  //   //   description:
+  //   //     "Content management system specifically designed for portfolio websites with drag-and-drop interface.",
+  //   //   thumbnail:
+  //   //     "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&q=80",
+  //   //   tags: ["Next.js", "Prisma", "TailwindCSS"],
+  //   //   category: "fullstack",
+  //   //   liveUrl: "https://example.com",
+  //   //   githubUrl: "https://github.com/example",
+  //   //   featured: true,
+  //   //   stats: { views: "4.1K", stars: 203, duration: "5 months" },
+  //   // },
+  //   // {
+  //   //   id: 6,
+  //   //   title: "Fitness Tracker",
+  //   //   description:
+  //   //     "Comprehensive fitness tracking application with workout plans, nutrition tracking, and progress analytics.",
+  //   //   thumbnail:
+  //   //     "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80",
+  //   //   tags: ["Flutter", "Firebase", "ML Kit"],
+  //   //   category: "mobile",
+  //   //   liveUrl: "https://example.com",
+  //   //   githubUrl: "https://github.com/example",
+  //   //   featured: false,
+  //   //   stats: { views: "2.9K", stars: 142, duration: "3 months" },
+  //   // },
+  // ];
 
   const filters = [
-    { id: "all", label: "All Projects", count: projects.length },
+    { id: "all", label: "All Projects", count: allProjects.length },
     {
       id: "fullstack",
       label: "Full Stack",
-      count: projects.filter((p) => p.category === "fullstack").length,
+      count: allProjects.filter((p) => p.category === "fullstack").length,
     },
     {
       id: "frontend",
       label: "Frontend",
-      count: projects.filter((p) => p.category === "frontend").length,
+      count: allProjects.filter((p) => p.category === "frontend").length,
     },
     {
       id: "mobile",
       label: "Mobile",
-      count: projects.filter((p) => p.category === "mobile").length,
+      count: allProjects.filter((p) => p.category === "mobile").length,
     },
   ];
 
   const filteredProjects =
     selectedFilter === "all"
-      ? projects
-      : projects.filter((p) => p.category === selectedFilter);
+      ? allProjects
+      : allProjects.filter((p) => p.category === selectedFilter);
+  
+  console.log(filteredProjects, "filteredProjects")
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-fuchsia-950 to-slate-900 py-20 px-4 sm:px-6 lg:px-8">
@@ -184,7 +221,7 @@ const ProjectShowcase = () => {
               }}
             >
               {/* Featured Badge */}
-              {project.featured && (
+              {project.isFeatured && (
                 <div className="absolute -top-3 -right-3 z-10">
                   <div className="bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white px-4 py-2 rounded-2xl shadow-lg flex items-center gap-2 transform rotate-3">
                     <Star className="w-4 h-4 fill-current" />
@@ -203,6 +240,7 @@ const ProjectShowcase = () => {
                     src={project.thumbnail}
                     alt={project.title}
                     className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                    unoptimized
                   />
 
                   {/* Overlay on hover */}
@@ -241,15 +279,15 @@ const ProjectShowcase = () => {
                   <div className="flex items-center gap-4 mb-4 text-sm text-slate-400">
                     <div className="flex items-center gap-1">
                       <Eye className="w-4 h-4" />
-                      <span>{project.stats.views}</span>
+                      <span>10</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Star className="w-4 h-4" />
-                      <span>{project.stats.stars}</span>
+                      <span>5</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Clock className="w-4 h-4" />
-                      <span>{project.stats.duration}</span>
+                      <span>3 days</span>
                     </div>
                   </div>
 
@@ -274,7 +312,13 @@ const ProjectShowcase = () => {
                   </div>
 
                   {/* View Details Link */}
-                  <button className="text-fuchsia-400 font-semibold flex items-center gap-2 hover:gap-3 transition-all group/btn mt-auto">
+                  <button
+                    onClick={() => {
+                      setSelectedProject(project);
+                      setIsModalOpen(true);
+                    }}
+                    className="text-fuchsia-400 cursor-pointer font-semibold flex items-center gap-2 hover:gap-3 transition-all group/btn mt-auto"
+                  >
                     <span>View Details</span>
                     <ChevronRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                   </button>
@@ -291,7 +335,7 @@ const ProjectShowcase = () => {
 
         {/* View More Section */}
         <div className="mt-16 text-center">
-          <button className="px-8 py-4 bg-gradient-to-r from-fuchsia-600 to-pink-600 text-white font-bold rounded-2xl hover:shadow-2xl hover:shadow-fuchsia-500/50 transform hover:scale-105 transition-all duration-300 flex items-center gap-3 mx-auto">
+          <button className="px-8 py-4 cursor-pointer bg-gradient-to-r from-fuchsia-600 to-pink-600 text-white font-bold rounded-2xl hover:shadow-2xl hover:shadow-fuchsia-500/50 transform hover:scale-105 transition-all duration-300 flex items-center gap-3 mx-auto">
             <Code2 className="w-5 h-5" />
             View All Projects on GitHub
             <ExternalLink className="w-5 h-5" />
@@ -311,6 +355,19 @@ const ProjectShowcase = () => {
           }
         }
       `}</style>
+
+      {selectedProject && (
+        <ProjectDetailsCard
+          projects={selectedProject}
+          open={isModalOpen}
+          setOpen={(open: boolean) => {
+            if (!open) {
+              setIsModalOpen(false);
+              setSelectedProject(null);
+            }
+          }}
+        />
+      )}
     </div>
   );
 };

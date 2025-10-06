@@ -84,7 +84,7 @@ export default function LoginForm() {
               )}
             />
 
-            <Button type="submit" className="w-full mt-2">
+            <Button type="submit" className="w-full mt-2 cursor-pointer">
               Login
             </Button>
 
